@@ -1,5 +1,6 @@
 package org.frc4931.robot;
 
+import org.frc4931.robot.command.ButtonCommand;
 import org.frc4931.robot.command.Toggle;
 import org.frc4931.robot.command.roller.RollIn;
 import org.frc4931.robot.command.roller.RollOut;
@@ -54,8 +55,8 @@ public class OperatorInterface {
 		joysticks[0].buttons[5].whenPressed(new RollOut());
 		joysticks[0].buttons[5].whenReleased(new StopRoller());
 		
-		joysticks[0].buttons[1].whenPressed(new Toggle(Subsystems.arm));
+		joysticks[0].buttons[1].whenPressed(new ButtonCommand(new Toggle(Subsystems.arm)));
 		
-		joysticks[0].buttons[6].whenPressed(new Toggle(Subsystems.nets));
+		joysticks[0].buttons[6].whenPressed(new ButtonCommand(new Toggle(Subsystems.nets)));
 	}
 }

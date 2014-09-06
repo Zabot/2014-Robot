@@ -1,6 +1,7 @@
 package org.frc4931.robot.command;
 
 import org.frc4931.robot.CompetitionRobot;
+import org.frc4931.robot.Copyable;
 import org.frc4931.robot.command.TwoState.State;
 import org.frc4931.robot.subsystems.ToggableSubsystem;
 
@@ -40,6 +41,10 @@ public class Toggle extends CommandBase{
 	 */
 	public Toggle(TwoState object, boolean continuous){
 		this(object, 0, continuous);
+	}
+	
+	public Toggle(Toggle t){
+		this(t.object, t.speed, t.isContinuous);
 	}
 	
 	public Toggle(TwoState object, double speed, boolean continuous){
@@ -92,5 +97,9 @@ public class Toggle extends CommandBase{
 	protected void end(){
 		object.stop();
 		super.end();
+	}
+	
+	public Copyable copy(){
+		return new Toggle(this);
 	}
 }
