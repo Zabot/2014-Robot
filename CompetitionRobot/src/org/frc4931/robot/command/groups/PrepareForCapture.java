@@ -9,17 +9,18 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  * Lower the arm and start rolling the roller in.
+ * 
  * @author Zach Anderson
- *
+ * @deprecated
  */
-public class PrepareForCapture extends CommandGroup{
+public class PrepareForCapture extends CommandGroup {
 
 	/**
 	 * Constructs the command group.
 	 */
 	public PrepareForCapture() {
 		addParallel(new RollIn());
-		addParallel(new SetState(Subsystems.arm, State.DOWN));
+		addParallel(new SetState(Subsystems.rollerArm.arm, State.DOWN));
 	}
 
 }

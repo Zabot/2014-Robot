@@ -12,8 +12,9 @@ import org.frc4931.robot.subsystems.DriveTrain;
 import org.frc4931.robot.subsystems.IMU;
 import org.frc4931.robot.subsystems.Nets;
 import org.frc4931.robot.subsystems.Ranger;
-import org.frc4931.robot.subsystems.Roller;
 import org.frc4931.robot.subsystems.RollerArm;
+import org.frc4931.robot.subsystems.RollerArm.Arm;
+import org.frc4931.robot.subsystems.RollerArm.Roller;
 import org.frc4931.zach.drive.ContinuousMotor;
 import org.frc4931.zach.drive.LimitedMotor;
 
@@ -33,7 +34,6 @@ public class CompetitionRobot extends IterativeRobot {
 	public static boolean ARM_ENABLED = true;
 	public static boolean NETS_ENABLED = true;
 
-	// Constant Convention: SUBSYSTEM_COMPONET_POSITION_DESCRIPTOR
 	private static final class PWMOutputs {
 		public static final int DRIVE_MOTOR_FRONTLEFT = 1;
 		public static final int DRIVE_MOTOR_FRONTRIGHT = 3;
@@ -114,15 +114,13 @@ public class CompetitionRobot extends IterativeRobot {
 						DigitalIO.NET_PROX_RIGHT));
 
 		// Instantiate the roller arm
-		Subsystems.arm = new RollerArm(
-				SolenoidOutputs.ARM_LEFT_EXTEND,
-				SolenoidOutputs.ARM_LEFT_RETRACT,
-				SolenoidOutputs.ARM_RIGHT_EXTEND,
-				SolenoidOutputs.ARM_RIGHT_RETRACT);
-
-		// Instantiate the roller
-		Subsystems.roller = new Roller(PWMOutputs.ROLLER_MOTOR,
-				ContinuousMotor.SpeedControllerType.VICTOR);
+		Subsystems.rollerArm = new RollerArm(
+				new Arm(SolenoidOutputs.ARM_LEFT_EXTEND,
+						SolenoidOutputs.ARM_LEFT_RETRACT,
+						SolenoidOutputs.ARM_RIGHT_EXTEND,
+						SolenoidOutputs.ARM_RIGHT_RETRACT),
+				new Roller(PWMOutputs.ROLLER_MOTOR,
+						ContinuousMotor.SpeedControllerType.VICTOR));
 
 		// Instantiate the front ultrasonic sensor
 		Subsystems.ranger = new Ranger(AnalogInput.RANGER_CHANNEL);
@@ -211,12 +209,12 @@ public class CompetitionRobot extends IterativeRobot {
 		SmartDashboard.putData("Open Right Net",
 				new SetState(Subsystems.nets.rightNet, State.OPEN));
 
-		/* Roller Arm Override Commands */
+		// Manual arm overrides
 		SmartDashboard.putData("Lower Roller Arm",
-				new SetState(Subsystems.arm, State.DOWN));
+				new SetState(Subsystems.rollerArm.arm, State.DOWN));
 
 		SmartDashboard.putData("Raise Roller Arm",
-				new SetState(Subsystems.arm, State.UP));
+				new SetState(Subsystems.rollerArm.arm, State.UP));
 	}
 
 	public void robotPeriodic() {
@@ -236,8 +234,7 @@ public class CompetitionRobot extends IterativeRobot {
 		// Put subsystems on dashboard
 		Subsystems.driveTrain.putToDashboard();
 		Subsystems.compressor.putToDashboard();
-		Subsystems.roller.putToDashboard();
-		Subsystems.arm.putToDashboard();
+		Subsystems.rollerArm.putToDashboard();
 		Subsystems.ranger.putToDashboard();
 		Subsystems.imu.putToDashboard();
 	}
@@ -245,7 +242,6 @@ public class CompetitionRobot extends IterativeRobot {
 	public void enabledPeriodic() {
 		// Update motors
 		Subsystems.driveTrain.update();
-		Subsystems.roller.update();
 
 		// Monitor pressure
 		if (Subsystems.compressor.testPressure())

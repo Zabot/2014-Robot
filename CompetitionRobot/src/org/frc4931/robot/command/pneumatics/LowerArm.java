@@ -7,13 +7,14 @@ import org.frc4931.robot.command.SetState;
 
 /**
  * Lowers the roller arm.
+ * 
  * @author Zach Anderson
  * @deprecated Use {@link SetState} instead.
  */
-public class LowerArm extends CommandBase{
+public class LowerArm extends CommandBase {
 
 	public LowerArm() {
-		requires(Subsystems.arm);
+		requires(Subsystems.rollerArm);
 	}
 
 	protected void end() {
@@ -21,11 +22,11 @@ public class LowerArm extends CommandBase{
 	}
 
 	protected void doExecute() {
-		Subsystems.arm.lower();
+		Subsystems.rollerArm.arm.lower();
 	}
 
 	protected boolean isFinished() {
-		return Subsystems.arm.isDown();
+		return Subsystems.rollerArm.arm.isDown();
 	}
 
 }

@@ -7,12 +7,13 @@ import org.frc4931.robot.command.SetState;
 
 /**
  * Raises the roller arm.
+ * 
  * @author Zach Anderson
  * @deprecated Use {@link SetState} instead.
  */
-public class RaiseArm extends CommandBase{
+public class RaiseArm extends CommandBase {
 	public RaiseArm() {
-		requires(Subsystems.arm);
+		requires(Subsystems.rollerArm);
 	}
 
 	protected void end() {
@@ -20,11 +21,11 @@ public class RaiseArm extends CommandBase{
 	}
 
 	protected void doExecute() {
-		Subsystems.arm.raise();
+		Subsystems.rollerArm.arm.raise();
 	}
 
 	protected boolean isFinished() {
-		return Subsystems.arm.isUp();
+		return Subsystems.rollerArm.arm.isUp();
 	}
 
 }

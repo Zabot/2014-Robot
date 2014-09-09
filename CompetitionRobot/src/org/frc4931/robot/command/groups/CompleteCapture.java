@@ -9,15 +9,17 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  * Raises the arm and stops the roller.
+ * 
+ * @deprecated
  */
-public class CompleteCapture extends CommandGroup{
+public class CompleteCapture extends CommandGroup {
 
 	/**
 	 * Constructs the command group.
 	 */
 	public CompleteCapture() {
-//		addParallel(new RollIn());
-		addSequential(new SetState(Subsystems.arm, State.UP));
+		// addParallel(new RollIn());
+		addSequential(new SetState(Subsystems.rollerArm.arm, State.UP));
 		addSequential(new StopRoller());
 	}
 }

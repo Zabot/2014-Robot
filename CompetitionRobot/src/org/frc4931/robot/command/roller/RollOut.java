@@ -1,20 +1,26 @@
 package org.frc4931.robot.command.roller;
 
 import org.frc4931.robot.Subsystems;
-import org.frc4931.robot.command.OneShotCommand;
+import org.frc4931.robot.command.CommandBase;
 
 /**
  * Rolls the roller out.
+ * 
  * @author Zach Anderson
- *
+ * 
  */
-public class RollOut extends OneShotCommand{
+public class RollOut extends CommandBase {
 
 	public RollOut() {
-		requires(Subsystems.roller);
+		requires(Subsystems.rollerArm.roller);
+		setInterruptible(true);
 	}
-	
+
 	protected void doExecute() {
-		Subsystems.roller.rollOut();
+		Subsystems.rollerArm.roller.rollOut();
+	}
+
+	protected boolean isFinished() {
+		return false;
 	}
 }

@@ -5,16 +5,17 @@ import org.frc4931.robot.command.OneShotCommand;
 
 /**
  * Stops the roller.
+ * 
  * @author Zach Anderson
- *
+ * 
  */
-public class StopRoller extends OneShotCommand{
+public class StopRoller extends OneShotCommand {
 
 	public StopRoller() {
-		requires(Subsystems.roller);
+		requires(Subsystems.rollerArm.roller);
 	}
-	
+
 	protected void doExecute() {
-		Subsystems.roller.stop();
+		Subsystems.rollerArm.roller.stop();
 	}
 }
