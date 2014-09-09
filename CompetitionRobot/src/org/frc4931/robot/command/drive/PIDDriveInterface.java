@@ -4,8 +4,9 @@ import org.frc4931.robot.Subsystems;
 
 import edu.wpi.first.wpilibj.PIDOutput;
 
-public class PIDDriveInterface implements PIDOutput{	
+/** @deprecated */
+public class PIDDriveInterface implements PIDOutput {
 	public void pidWrite(double output) {
-		Subsystems.driveTrain.setDriveSpeed(-1*output);
+		Subsystems.driveTrain.setDriveSpeed(-1 * output);
 	}
 }

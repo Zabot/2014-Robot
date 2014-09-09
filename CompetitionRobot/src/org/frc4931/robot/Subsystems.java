@@ -7,7 +7,6 @@ import org.frc4931.robot.subsystems.Nets;
 import org.frc4931.robot.subsystems.Ranger;
 import org.frc4931.robot.subsystems.RollerArm;
 
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Ultrasonic;
 
 /*
@@ -23,9 +22,7 @@ public class Subsystems {
 
 	public static Ranger ranger;
 	public static IMU imu;
-	public static PIDController pid;
-	public static PIDController turnPID;
-	
+
 	public static Ultrasonic leftUltrasonicSensor;
 	public static Ultrasonic rightUltrasonicSensor;
 }

@@ -3,8 +3,6 @@ package org.frc4931.robot;
 import org.frc4931.robot.command.SetState;
 import org.frc4931.robot.command.TwoState.State;
 import org.frc4931.robot.command.drive.ModifiedDriveWithJoystick;
-import org.frc4931.robot.command.drive.PIDDriveInterface;
-import org.frc4931.robot.command.drive.PIDTurnInterface;
 import org.frc4931.robot.command.groups.DriveAndScore;
 import org.frc4931.robot.command.pneumatics.Pressurize;
 import org.frc4931.robot.subsystems.Compressor;
@@ -19,7 +17,6 @@ import org.frc4931.zach.drive.ContinuousMotor;
 import org.frc4931.zach.drive.LimitedMotor;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -127,16 +124,6 @@ public class CompetitionRobot extends IterativeRobot {
 
 		// Instantiate the IMU
 		Subsystems.imu = new IMU(AnalogInput.GYRO_CHANNEL);
-
-		// TODO Check if this is being used
-		// Instantiate a driving pid loop
-		Subsystems.pid = new PIDController(0.5, 0, 0, Subsystems.ranger,
-				new PIDDriveInterface());
-
-		// TODO Check if this is being used
-		// Instantiate a turning pid loop
-		Subsystems.turnPID = new PIDController(0.003, 0, 0.007, Subsystems.imu,
-				new PIDTurnInterface());
 
 		// Instantiate the left ultrasonic sensor
 		Subsystems.leftUltrasonicSensor = new Ultrasonic(

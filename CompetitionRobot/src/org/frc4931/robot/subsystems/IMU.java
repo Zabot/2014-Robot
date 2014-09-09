@@ -17,8 +17,12 @@ public class IMU extends SubsystemBase implements PIDSource {
 		accel = new Accel(Accel.FOURG);
 	}
 
-	public double getAngle() {
+	public double getContinuousAngle() {
 		return gyro.getAngle();
+	}
+
+	public double getBoundedAngle() {
+		return gyro.getAngle() % 360;
 	}
 
 	public double getAcceleration(Axes axis) {
@@ -53,7 +57,7 @@ public class IMU extends SubsystemBase implements PIDSource {
 
 	public void putToDashboard() {
 		SmartDashboard.putData("Gyroscope", gyro);
-		SmartDashboard.putNumber("Angle", getAngle());
+		SmartDashboard.putNumber("Angle", getContinuousAngle());
 		SmartDashboard.putNumber("Accelerometer X",
 				accel.getAcceleration(Accel.X));
 		SmartDashboard.putNumber("Accelerometer Y",
@@ -63,10 +67,10 @@ public class IMU extends SubsystemBase implements PIDSource {
 	}
 
 	public double pidGet() {
-		if (getAngle() < 0) {
-			return (getAngle() % 360) + 360;
+		if (getContinuousAngle() < 0) {
+			return (getContinuousAngle() % 360) + 360;
 		} else {
-			return getAngle() % 360;
+			return getContinuousAngle() % 360;
 		}
 	}
 
