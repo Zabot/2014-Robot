@@ -165,38 +165,13 @@ public class CompetitionRobot extends IterativeRobot {
 	}
 
 	public void smartDashboardInit() {
-		// Auto mode selector
-		SmartDashboard.putNumber("Auto Mode", 0);
-
 		// TODO Refine these values and make them constants for a joystick
 		SmartDashboard.putNumber("DriveDeadZone", 0.08);
 		SmartDashboard.putNumber("TurnDeadZone", 0.1);
 
-		// TODO Refine these values and make them constants in DriveTrain
-		SmartDashboard.putNumber("MinDriveSpeed", 0.3);
-		SmartDashboard.putNumber("MaxDriveSpeed", 1.0);
-
-		// TODO Refine these values and make them constants in DriveTrain
-		SmartDashboard.putNumber("MinTurnSpeed", 0.3);
-		SmartDashboard.putNumber("MaxTurnSpeed", 1.0);
-
-		// TODO Refine these values and make them constants in DriveTrain
-		SmartDashboard.putNumber("Range 1", 0.4);
-		SmartDashboard.putNumber("Range 2", 0.8);
-		SmartDashboard.putNumber("Range 3", 1.0);
-
-		// TODO Refine these values and make them constants in DriveTrain
-		SmartDashboard.putNumber("Max Delta 1", 1.0);
-		SmartDashboard.putNumber("Max Delta 2", 0.1);
-		SmartDashboard.putNumber("Max Delta 3", 0.01);
-
 		SmartDashboard.putNumber("MaxApproachSpeed", 0.4);
 
-		// TODO Determine if these are still being used
-		SmartDashboard.putData("Drive PID", Subsystems.pid);
-		SmartDashboard.putData("Turn PID", Subsystems.turnPID);
-
-		/* Net Override Commands */
+		// Manual net overrides
 		SmartDashboard.putData("Close Left Net",
 				new SetState(Subsystems.nets.leftNet, State.CLOSED));
 

@@ -14,6 +14,37 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author Zach Anderson
  */
 public class DriveTrain extends SubsystemBase {
+	private static final class InertialConstants {
+		public static final double MIN_DRIVE_SPEED = 0.3;
+		public static final double MAX_DRIVE_SPEED = 1.0;
+
+		public static final double MIN_TURN_SPEED = 0.3;
+		public static final double MAX_TURN_SPEED = 1.0;
+	}
+
+	private static final class AccelerationCurve {
+		private static final double[] ranges = { 0.4, 0.8, 1.0 };
+		private static final double[] delta = { 1.0, 0.1, 0.01 };
+
+		/**
+		 * Finds the maximum amount the drive speed of the robot can change in
+		 * one iteration given an initial speed.
+		 * 
+		 * @param speed
+		 *            The speed to find the max delta for
+		 * @return The maximum amount the speed can change in one iteration.
+		 */
+		private static final double getMaxDelta(double speed) {
+			speed = Math.abs(speed);
+			for (int i = 0; i < ranges.length; i++) {
+				if (speed <= ranges[i]) {
+					return delta[i];
+				}
+			}
+			return 0.0;
+		}
+	}
+
 	/** The {@link RobotDrive} being wrapped. */
 	private final RobotDrive drive;
 
@@ -144,36 +175,11 @@ public class DriveTrain extends SubsystemBase {
 		delta = Math.abs(delta);
 
 		// Clamp delta to the max allowed drive speed
-		delta = Math.min(delta, getMaxDelta(driveSpeed));
+		delta = Math.min(delta, AccelerationCurve.getMaxDelta(driveSpeed));
 
 		// Update speeds
 		setDriveSpeed(driveSpeed + (delta * deltaSign));
 		setTurnSpeed(turn);
-	}
-
-	/**
-	 * Finds the maximum amount the drive speed of the robot can change in one
-	 * iteration given an initial speed.
-	 * 
-	 * @param speed
-	 *            The speed to find the max delta for
-	 * @return The maximum amount the speed can change in one iteration.
-	 */
-	private static final double getMaxDelta(double speed) {
-		// TODO Make constants, maybe in an AccelerationCurve class?
-
-		// Disregard the sign of speed
-		speed = Math.abs(speed);
-
-		if (speed < SmartDashboard.getNumber("Range 1")) {
-			return SmartDashboard.getNumber("Max Delta 1");
-		} else if (speed < SmartDashboard.getNumber("Range 2")) {
-			return SmartDashboard.getNumber("Max Delta 2");
-		} else if (speed <= SmartDashboard.getNumber("Range 3")) {
-			return SmartDashboard.getNumber("Max Delta 3");
-		} else {
-			return 0.0d;
-		}
 	}
 
 	/**
@@ -185,13 +191,11 @@ public class DriveTrain extends SubsystemBase {
 		// Get the sign of driveSpeed
 		int driveDirection = Transform.signum(driveSpeed);
 
-		// TODO Make this a constant
 		// Get the minimum drive speed to overcome inertia
-		double minDriveSpeed = SmartDashboard.getNumber("MinDriveSpeed");
+		double minDriveSpeed = InertialConstants.MIN_DRIVE_SPEED;
 
-		// TODO Make this a constant
 		// Get the maximum allowed drive speed
-		double maxDriveSpeed = SmartDashboard.getNumber("MaxDriveSpeed");
+		double maxDriveSpeed = InertialConstants.MAX_DRIVE_SPEED;
 
 		// Map the unsigned speed to that range
 		double mappedSpeed = Transform.map(0, 1, minDriveSpeed,
@@ -203,13 +207,11 @@ public class DriveTrain extends SubsystemBase {
 		// Get the sign of turnSpeed
 		int turnDirection = Transform.signum(turnSpeed);
 
-		// TODO Make this a constant
 		// Get the minimum drive speed to overcome inertia
-		double minTurnSpeed = SmartDashboard.getNumber("MinTurnSpeed");
+		double minTurnSpeed = InertialConstants.MIN_TURN_SPEED;
 
-		// TODO Make this a constant
 		// Get the maximum allowed drive speed
-		double maxTurnSpeed = SmartDashboard.getNumber("MaxTurnSpeed");
+		double maxTurnSpeed = InertialConstants.MAX_TURN_SPEED;
 
 		// Map the unsigned speed to that range
 		double mappedTurn = Transform.map(0, 1, minTurnSpeed,
@@ -255,7 +257,7 @@ public class DriveTrain extends SubsystemBase {
 	public void setTurnSpeed(double speed) {
 		// TODO This sign error is going to be carried everywhere
 		// Invert speed to be more intuitive
-		speed = -speed;
+		// speed = -speed;
 
 		speed = Transform.clamp(-1.0, 1.0, speed);
 		turnSpeed = speed;
